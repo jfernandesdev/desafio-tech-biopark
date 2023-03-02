@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Buildings {
+  id               String    @id @default(cuid())
+  name             String    @unique
+  address          String
+  number_of_floors Int
+  opening_date     DateTime
+  created_at       DateTime  @default(now())
+  updated_at       DateTime?
+
+  Apartments Apartments[]
+
+  @@map("buildings")
+}
+
+model Apartments {
+  id                 String    @id @default(cuid())
+  building_id        String
+  number             Int
+  number_of_bedrooms Int
+  rent_value         Float
+  availabily         Boolean
+  created_at         DateTime  @default(now())
+  updated_at         DateTime?
+
+  Rents Rents[]
+
+  building Buildings @relation(fields: [building_id], references: [id])
+
+  @@map("apartments")
+}
+
+model Tenants {
+  id            String    @id @default(cuid())
+  cpf           String    @unique
+  name          String
+  date_of_birth DateTime
+  email         String
+  phone         String
+  created_at    DateTime  @default(now())
+  updated_at    DateTime?
+
+  Rents Rents[]
+
+  @@map("tenants")
+}
+
+model Rents {
+  id           String    @id @default(cuid())
+  apartment_id String
+  tenant_id    String
+  start_date   DateTime
+  end_date     DateTime
+  rent_value   Float
+  created_at   DateTime  @default(now())
+  updated_at   DateTime?
+
+  apartament Apartments @relation(fields: [apartment_id], references: [id])
+  tenant     Tenants    @relation(fields: [tenant_id], references: [id])
+
+  @@map("rents")
+}
