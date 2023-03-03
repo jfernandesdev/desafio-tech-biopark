@@ -27,7 +27,7 @@ model Apartments {
   number             Int
   number_of_bedrooms Int
   rent_value         Float
-  availabily         Boolean
+  availability       Boolean
   created_at         DateTime  @default(now())
   updated_at         DateTime?
 
