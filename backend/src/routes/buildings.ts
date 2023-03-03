@@ -19,7 +19,7 @@ const createApartmentBodySchema = z.object({
 });
 
 export async function buildingsRoutes(app: FastifyInstance) {
-  app.post("/", async (request, reply) => {
+  app.post("/buildings", async (request, reply) => {
     try {
       const buildingInfo = createBuildingBodySchema.parse(request.body);
 
@@ -56,7 +56,13 @@ export async function buildingsRoutes(app: FastifyInstance) {
     }
   });
 
-  app.post("/:id/apartments", async (request, reply) => {
+  app.get("/buildings", async () => {
+    const buildings = await prisma.buildings.findMany();
+
+    return { buildings };
+  });
+
+  app.post("/buildings/:id/apartments", async (request, reply) => {
     try {
       const getBuildingParams = z.object({ id: z.string() });
 

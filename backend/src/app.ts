@@ -4,6 +4,4 @@ import { buildingsRoutes } from "./routes/buildings";
 
 export const app = fastify();
 
-app.register(buildingsRoutes, {
-  prefix: "buildings",
-});
+app.register(buildingsRoutes);
