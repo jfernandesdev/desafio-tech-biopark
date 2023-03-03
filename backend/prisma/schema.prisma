@@ -24,7 +24,7 @@ model Buildings {
 model Apartments {
   id                 String    @id @default(cuid())
   building_id        String
-  number             Int       @unique
+  number             Int
   floor              Int
   number_of_bedrooms Int
   rent_value         Float
@@ -36,6 +36,7 @@ model Apartments {
 
   building Buildings @relation(fields: [building_id], references: [id])
 
+  @@unique([building_id, number], name: "buildingApartamentNumber")
   @@map("apartments")
 }
 

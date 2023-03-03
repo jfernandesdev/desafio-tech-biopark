@@ -105,6 +105,19 @@ export async function buildingsRoutes(app: FastifyInstance) {
         });
       }
 
+      const existingApartment = await prisma.apartments.findFirst({
+        where: {
+          building_id: id,
+          number: apartmentInfo.number,
+        },
+      });
+
+      if (existingApartment) {
+        return reply.status(400).send({
+          message: "The apartment already exists in the specified building.",
+        });
+      }
+
       await prisma.apartments.create({
         data: {
           id: randomUUID(),
