@@ -24,7 +24,8 @@ model Buildings {
 model Apartments {
   id                 String    @id @default(cuid())
   building_id        String
-  number             Int
+  number             Int       @unique
+  floor              Int
   number_of_bedrooms Int
   rent_value         Float
   availability       Boolean
@@ -39,8 +40,7 @@ model Apartments {
 }
 
 model Tenants {
-  id            String    @id @default(cuid())
-  cpf           String    @unique
+  cpf           String    @id
   name          String
   date_of_birth DateTime
   email         String
@@ -57,6 +57,7 @@ model Rents {
   id           String    @id @default(cuid())
   apartment_id String
   tenant_id    String
+  locator      String    @default("Biopark")
   start_date   DateTime
   end_date     DateTime
   rent_value   Float
@@ -64,7 +65,7 @@ model Rents {
   updated_at   DateTime?
 
   apartament Apartments @relation(fields: [apartment_id], references: [id])
-  tenant     Tenants    @relation(fields: [tenant_id], references: [id])
+  tenant     Tenants    @relation(fields: [tenant_id], references: [cpf])
 
   @@map("rents")
 }

@@ -13,6 +13,7 @@ const createBuildingBodySchema = z.object({
 
 const createApartmentBodySchema = z.object({
   number: z.number().int(),
+  floor: z.number().int(),
   number_of_bedrooms: z.number().int(),
   rent_value: z.number(),
   availability: z.boolean(),
@@ -102,6 +103,7 @@ export async function buildingsRoutes(app: FastifyInstance) {
           id: randomUUID(),
           building_id: id,
           number: apartmentInfo.number,
+          floor: apartmentInfo.floor,
           number_of_bedrooms: apartmentInfo.number_of_bedrooms,
           rent_value: apartmentInfo.rent_value,
           availability: apartmentInfo.availability,
@@ -131,6 +133,7 @@ export async function buildingsRoutes(app: FastifyInstance) {
           select: {
             id: true,
             number: true,
+            floor: true,
             number_of_bedrooms: true,
             rent_value: true,
             availability: true,
