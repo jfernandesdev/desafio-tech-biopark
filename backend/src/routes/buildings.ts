@@ -62,6 +62,22 @@ export async function buildingsRoutes(app: FastifyInstance) {
     return { buildings };
   });
 
+  app.get("/buildings/:id", async (request, reply) => {
+    const getBuildingParams = z.object({ id: z.string() });
+
+    const { id } = getBuildingParams.parse(request.params);
+
+    const building = await prisma.buildings.findUnique({
+      where: { id },
+    });
+
+    if (!building) {
+      return reply.status(400).send({ message: "Building not found!" });
+    }
+
+    return { building };
+  });
+
   app.post("/buildings/:id/apartments", async (request, reply) => {
     try {
       const getBuildingParams = z.object({ id: z.string() });
@@ -81,7 +97,7 @@ export async function buildingsRoutes(app: FastifyInstance) {
         });
       }
 
-      const apartment = await prisma.apartments.create({
+      await prisma.apartments.create({
         data: {
           id: randomUUID(),
           building_id: id,
@@ -92,7 +108,7 @@ export async function buildingsRoutes(app: FastifyInstance) {
         },
       });
 
-      return reply.status(201).send({ apartment });
+      return reply.status(201).send();
     } catch (error) {
       const errorMessage =
         error instanceof z.ZodError
@@ -101,5 +117,32 @@ export async function buildingsRoutes(app: FastifyInstance) {
 
       return reply.status(400).send({ message: errorMessage });
     }
+  });
+
+  app.get("/buildings/:id/apartments", async (request, reply) => {
+    const getBuildingParams = z.object({ id: z.string() });
+
+    const { id } = getBuildingParams.parse(request.params);
+
+    const building = await prisma.buildings.findUnique({
+      where: { id },
+      include: {
+        Apartments: {
+          select: {
+            id: true,
+            number: true,
+            number_of_bedrooms: true,
+            rent_value: true,
+            availability: true,
+          },
+        },
+      },
+    });
+
+    if (!building) {
+      return reply.status(400).send({ message: "Building not found!" });
+    }
+
+    return { building };
   });
 }
