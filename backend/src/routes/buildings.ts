@@ -58,7 +58,11 @@ export async function buildingsRoutes(app: FastifyInstance) {
   });
 
   app.get("/buildings", async () => {
-    const buildings = await prisma.buildings.findMany();
+    const buildings = await prisma.buildings.findMany({
+      include: {
+        _count: true,
+      },
+    });
 
     return { buildings };
   });
@@ -70,6 +74,9 @@ export async function buildingsRoutes(app: FastifyInstance) {
 
     const building = await prisma.buildings.findUnique({
       where: { id },
+      include: {
+        _count: true,
+      },
     });
 
     if (!building) {

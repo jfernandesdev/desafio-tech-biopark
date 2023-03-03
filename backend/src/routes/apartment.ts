@@ -21,6 +21,34 @@ export async function apartmentsRoutes(app: FastifyInstance) {
 
     const apartment = await prisma.apartments.findUnique({
       where: { id },
+      include: {
+        building: {
+          select: {
+            name: true,
+          },
+        },
+        Rents: {
+          select: {
+            id: true,
+            locator: true,
+            start_date: true,
+            end_date: true,
+            rent_value: true,
+            tenant: {
+              select: {
+                name: true,
+                cpf: true,
+                date_of_birth: true,
+                email: true,
+                phone: true,
+              },
+            },
+          },
+          orderBy: {
+            created_at: "desc",
+          },
+        },
+      },
     });
 
     if (!apartment) {
