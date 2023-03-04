@@ -1,5 +1,5 @@
-import { Title } from "./styles";
+import { Title } from "../../components/Title";
 
 export function Building() {
-  return <Title>Edifício A</Title>;
+  return <Title title="Edificio A" />;
 }
