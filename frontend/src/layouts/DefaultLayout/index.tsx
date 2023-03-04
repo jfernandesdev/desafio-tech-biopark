@@ -2,14 +2,17 @@ import { Outlet } from "react-router-dom";
 
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
-import { LayoutContainer } from "./styles";
+import { Container, Content } from "./styles";
 
 export function DefaultLayout() {
   return (
-    <LayoutContainer>
+    <Container>
       <Header />
       <Sidebar />
-      <Outlet />
-    </LayoutContainer>
+
+      <Content>
+        <Outlet />
+      </Content>
+    </Container>
   );
 }

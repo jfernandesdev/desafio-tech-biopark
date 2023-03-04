@@ -13,9 +13,12 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   }
 
-  body, input, textarea, button {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
+  body, input, button, textarea, select {
+    font: 400 1rem "Inter", sans-serif;
   }
+
+  a {
+    text-decoration: none;
+  }
+
 `;
