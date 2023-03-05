@@ -1,9 +1,10 @@
 import * as Dialog from "@radix-ui/react-dialog";
 
 import { Button } from "../../components/Button";
+import { CardBuilding } from "../../components/CardBuilding";
 import { NewBuildingModal } from "../../components/NewBuildingModal";
 import { Title } from "../../components/Title";
-import { Container, Header, Subtitle } from "./styles";
+import { Container, Header, Subtitle, BuildingsCardList } from "./styles";
 
 export function Home() {
   return (
@@ -23,6 +24,16 @@ export function Home() {
           </Dialog.Root>
         </div>
       </Header>
+
+      <BuildingsCardList>
+        <CardBuilding />
+        <CardBuilding />
+        <CardBuilding />
+        <CardBuilding />
+        <CardBuilding />
+        <CardBuilding />
+        <CardBuilding />
+      </BuildingsCardList>
     </Container>
   );
 }

@@ -24,4 +24,21 @@ export const GlobalStyle = createGlobalStyle`
   button {
     border: 0;
   }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 0;
+  }
+
+  ::-webkit-scrollbar, ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #4d4d57;
+  }
+
+  ::-webkit-scrollbar, ::-webkit-scrollbar-track {
+    background: transparent;
+  }
 `;
