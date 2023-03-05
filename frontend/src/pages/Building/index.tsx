@@ -2,16 +2,17 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { LadderSimple, MapPinLine } from "phosphor-react";
 
 import { Button } from "../../components/Button";
+import { CardApartment } from "../../components/CardApartment";
 import { NewApartmentModal } from "../../components/NewApartmentModal";
 import { Title } from "../../components/Title";
-import { Container, Header, Description } from "./styles";
+import { Container, Header, Description, ApartmentsCardList } from "./styles";
 
 export function Building() {
   return (
     <Container>
       <Header>
         <div>
-          <Title title="Edifício Residencial A" />
+          <Title title="Edifício Residencial A" weight="500" />
           <Description>
             <span>
               <MapPinLine />
@@ -33,6 +34,16 @@ export function Building() {
           </Dialog.Root>
         </div>
       </Header>
+
+      <ApartmentsCardList>
+        <CardApartment />
+        <CardApartment availability />
+        <CardApartment />
+        <CardApartment availability />
+        <CardApartment />
+        <CardApartment />
+        <CardApartment availability />
+      </ApartmentsCardList>
     </Container>
   );
 }

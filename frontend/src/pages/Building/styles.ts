@@ -25,3 +25,10 @@ export const Description = styled.div`
     padding-left: 1rem;
   }
 `;
+
+export const ApartmentsCardList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+`;
