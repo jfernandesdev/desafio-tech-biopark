@@ -11,7 +11,7 @@ export const ModalOverlay = styled(Dialog.Overlay)`
 `;
 
 export const ModalContent = styled(Dialog.Content)`
-  min-width: 32rem;
+  min-width: 50rem;
   border-radius: 6px;
   padding: 2.5rem 3rem;
   background: ${(props) => props.theme["base-card-background"]};

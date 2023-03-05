@@ -7,6 +7,23 @@ export const Form = styled.form`
   gap: 1rem;
 `;
 
+export const SubtitleInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid ${(props) => props.theme["base-card-line"]};
+
+  > span {
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 0.5rem;
+    }
+  }
+`;
+
 export const Label = styled.label`
   display: flex;
   flex-direction: column;
@@ -25,6 +42,12 @@ export const Input = styled.input`
   &:disabled {
     cursor: "not-allowed";
   }
+
+  &:read-only {
+    cursor: "not-allowed";
+    outline: 0;
+    background: rgba(156, 163, 175, 0.2);
+  }
 `;
 
 export const FooterForm = styled.footer`
@@ -37,6 +60,12 @@ export const FooterForm = styled.footer`
 
 export const RowTwoColumns = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 336px;
+  gap: 1rem;
+`;
+
+export const RowThreeColumns = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 160px 160px;
   gap: 1rem;
 `;
