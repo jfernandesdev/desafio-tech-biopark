@@ -1,4 +1,5 @@
 import { LadderSimple, MapPinLine, ArrowSquareUpRight } from "phosphor-react";
+import { NavLink } from "react-router-dom";
 
 import {
   Card,
@@ -13,35 +14,63 @@ import {
   MoreDetailsBtn,
 } from "./styles";
 
-export function CardBuilding() {
+interface ICardBuilding {
+  data: {
+    id: string;
+    name: string;
+    address: string;
+    number_of_floors: number;
+    Apartments?: {
+      id: string;
+      availability: boolean;
+    }[];
+  };
+}
+
+export function CardBuilding({ data }: ICardBuilding) {
+  const { Apartments } = data;
+
+  const apartmentsAvailability = Apartments?.reduce(
+    (acc, { availability }) => ({
+      total: acc.total + 1,
+      available: availability ? acc.available + 1 : acc.available,
+      unavailable: !availability ? acc.unavailable + 1 : acc.unavailable,
+    }),
+    { total: 0, available: 0, unavailable: 0 }
+  );
+
+  const { total, available, unavailable } = apartmentsAvailability || {};
+
   return (
     <Card>
-      <CardHeader>
-        <Title>Edifício Residencial A</Title>
-        <NumberOfApartments>
-          <TotalApartments>
-            <strong>10</strong> aptos
-          </TotalApartments>
-          <div>
-            <AvailableApartment>7 disponíveis</AvailableApartment>
-            <UnavailableApartment>3 alugados</UnavailableApartment>
-          </div>
-        </NumberOfApartments>
-      </CardHeader>
+      <NavLink to={`/building/${data.id}`}>
+        <CardHeader>
+          <Title>{data.name}</Title>
+          <NumberOfApartments>
+            <TotalApartments>
+              <strong>{total}</strong> {total && total > 1 ? "aptos" : "apto"}
+            </TotalApartments>
+            <div>
+              <AvailableApartment>{available} disponível</AvailableApartment>
+              <UnavailableApartment>{unavailable} alugado</UnavailableApartment>
+            </div>
+          </NumberOfApartments>
+        </CardHeader>
 
-      <CardBody>
-        <div>
-          <Description>
-            <MapPinLine /> Localizado na Rua A, 1001 - Biopark
-          </Description>
-          <Description>
-            <LadderSimple /> 4 andares
-          </Description>
-        </div>
-        <MoreDetailsBtn>
-          Mais detalhes <ArrowSquareUpRight size={16} weight="bold" />
-        </MoreDetailsBtn>
-      </CardBody>
+        <CardBody>
+          <div>
+            <Description>
+              <MapPinLine /> {data.address}
+            </Description>
+            <Description>
+              <LadderSimple /> {data.number_of_floors} andares
+            </Description>
+          </div>
+          <MoreDetailsBtn>
+            Mais detalhes <ArrowSquareUpRight size={16} weight="bold" />
+          </MoreDetailsBtn>
+        </CardBody>
+      </NavLink>
     </Card>
   );
 }

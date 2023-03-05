@@ -60,11 +60,16 @@ export async function buildingsRoutes(app: FastifyInstance) {
   app.get("/buildings", async () => {
     const buildings = await prisma.buildings.findMany({
       include: {
-        _count: true,
+        Apartments: {
+          select: {
+            id: true,
+            availability: true,
+          },
+        },
       },
     });
 
-    return { buildings };
+    return buildings;
   });
 
   app.get("/buildings/:id", async (request, reply) => {
@@ -75,7 +80,16 @@ export async function buildingsRoutes(app: FastifyInstance) {
     const building = await prisma.buildings.findUnique({
       where: { id },
       include: {
-        _count: true,
+        Apartments: {
+          select: {
+            id: true,
+            number: true,
+            floor: true,
+            number_of_bedrooms: true,
+            rent_value: true,
+            availability: true,
+          },
+        },
       },
     });
 
@@ -83,7 +97,7 @@ export async function buildingsRoutes(app: FastifyInstance) {
       return reply.status(400).send({ message: "Building not found!" });
     }
 
-    return { building };
+    return building;
   });
 
   app.post("/buildings/:id/apartments", async (request, reply) => {
@@ -139,33 +153,5 @@ export async function buildingsRoutes(app: FastifyInstance) {
 
       return reply.status(400).send({ message: errorMessage });
     }
-  });
-
-  app.get("/buildings/:id/apartments", async (request, reply) => {
-    const getBuildingParams = z.object({ id: z.string() });
-
-    const { id } = getBuildingParams.parse(request.params);
-
-    const building = await prisma.buildings.findUnique({
-      where: { id },
-      include: {
-        Apartments: {
-          select: {
-            id: true,
-            number: true,
-            floor: true,
-            number_of_bedrooms: true,
-            rent_value: true,
-            availability: true,
-          },
-        },
-      },
-    });
-
-    if (!building) {
-      return reply.status(400).send({ message: "Building not found!" });
-    }
-
-    return { building };
   });
 }

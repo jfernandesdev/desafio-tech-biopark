@@ -4,9 +4,12 @@ import { Button } from "../../components/Button";
 import { CardBuilding } from "../../components/CardBuilding";
 import { NewBuildingModal } from "../../components/NewBuildingModal";
 import { Title } from "../../components/Title";
+import { useBuildings } from "../../hooks/useBuildings";
 import { Container, Header, Subtitle, BuildingsCardList } from "./styles";
 
 export function Home() {
+  const { buildings } = useBuildings();
+
   return (
     <Container>
       <Header>
@@ -26,13 +29,9 @@ export function Home() {
       </Header>
 
       <BuildingsCardList>
-        <CardBuilding />
-        <CardBuilding />
-        <CardBuilding />
-        <CardBuilding />
-        <CardBuilding />
-        <CardBuilding />
-        <CardBuilding />
+        {buildings.map((building) => (
+          <CardBuilding key={building.id} data={building} />
+        ))}
       </BuildingsCardList>
     </Container>
   );
