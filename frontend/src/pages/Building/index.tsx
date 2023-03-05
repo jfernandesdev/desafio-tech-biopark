@@ -2,46 +2,37 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { LadderSimple, MapPinLine } from "phosphor-react";
 
 import { Button } from "../../components/Button";
-import { RentApartmentModal } from "../../components/RentApartmentModal";
-import { RentInformationModal } from "../../components/RentInformationModal";
+import { NewApartmentModal } from "../../components/NewApartmentModal";
 import { Title } from "../../components/Title";
-import { Container } from "./styles";
+import { Container, Header, Description } from "./styles";
 
 export function Building() {
   return (
     <Container>
-      <Title title="Edifício Residencial A" />
-      <div>
-        <span>
-          <MapPinLine />
-          Localizado na Rua A, 1001 - Biopark
-        </span>
-        <span>
-          <LadderSimple /> 4 andares
-        </span>
-      </div>
+      <Header>
+        <div>
+          <Title title="Edifício Residencial A" />
+          <Description>
+            <span>
+              <MapPinLine />
+              Localizado na Rua A, 1001 - Biopark
+            </span>
+            <span>
+              <LadderSimple /> 4 andares
+            </span>
+          </Description>
+        </div>
 
-      <Dialog.Root>
-        <Dialog.Trigger>
-          <Button
-            text="Modal Alugar Apto. (apenas marcação)"
-            variant="secondary"
-          />
-        </Dialog.Trigger>
+        <div>
+          <Dialog.Root>
+            <Dialog.Trigger>
+              <Button text="Novo apartamento" variant="primary" withPlusIcon />
+            </Dialog.Trigger>
 
-        <RentApartmentModal />
-      </Dialog.Root>
-
-      <Dialog.Root>
-        <Dialog.Trigger>
-          <Button
-            text="Modal Informações de aluguél. (apenas marcação)"
-            variant="secondary"
-          />
-        </Dialog.Trigger>
-
-        <RentInformationModal />
-      </Dialog.Root>
+            <NewApartmentModal />
+          </Dialog.Root>
+        </div>
+      </Header>
     </Container>
   );
 }

@@ -32,24 +32,6 @@ export const Label = styled.label`
   color: ${(props) => props.theme["base-title"]};
 `;
 
-export const Input = styled.input`
-  width: 100%;
-  border-radius: 6px;
-  border: 1px solid ${(props) => props.theme["base-card-line"]};
-  color: ${(props) => props.theme["base-text"]};
-  padding: 1rem;
-
-  &:disabled {
-    cursor: "not-allowed";
-  }
-
-  &:read-only {
-    cursor: "not-allowed";
-    outline: 0;
-    background: rgba(156, 163, 175, 0.2);
-  }
-`;
-
 interface IFooterForm {
   variantJustify?: "right" | "center";
 }

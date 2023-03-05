@@ -6,11 +6,11 @@ import {
   Form,
   SubtitleInfo,
   Label,
-  Input,
   FooterForm,
   RowTwoColumns,
   RowThreeColumns,
 } from "../Form/styles";
+import { Input } from "../Input";
 import {
   ModalOverlay,
   ModalContent,

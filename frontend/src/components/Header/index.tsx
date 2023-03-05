@@ -17,7 +17,7 @@ export function Header() {
         aria-label="notification"
         title="Me contrata Biopark :)"
       >
-        <EnvelopeSimple size={32} width="light" />
+        <EnvelopeSimple size={32} weight="light" />
       </NotificationButton>
 
       <ProfileWrapper>

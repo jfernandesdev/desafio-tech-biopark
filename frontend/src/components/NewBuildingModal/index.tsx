@@ -2,7 +2,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
 
 import { Button } from "../Button";
-import { Form, Label, Input, FooterForm, RowTwoColumns } from "../Form/styles";
+import { Form, Label, FooterForm, RowTwoColumns } from "../Form/styles";
+import { Input } from "../Input";
 import {
   ModalOverlay,
   ModalContent,
@@ -16,7 +17,9 @@ export function NewBuildingModal() {
       <ModalOverlay />
 
       <ModalContent>
-        <ModalTitle>Cadastrando novo edifício</ModalTitle>
+        <ModalTitle>
+          Cadastrando novo <span>Edifício</span>
+        </ModalTitle>
 
         <ModalCloseButton>
           <X size={24} weight="bold" />
@@ -24,7 +27,7 @@ export function NewBuildingModal() {
 
         <Form>
           <Label htmlFor="name">
-            Name do edifício:
+            Nome do edifício:
             <Input type="text" id="name" required />
           </Label>
 
