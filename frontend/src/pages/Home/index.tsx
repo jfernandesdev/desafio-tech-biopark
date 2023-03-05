@@ -15,11 +15,14 @@ export function Home() {
       <Header>
         <div>
           <Title title="Edifícios Biopark" />
-          <Subtitle>5 cadastrados</Subtitle>
+          <Subtitle>
+            {buildings.length}{" "}
+            {buildings && buildings.length > 1 ? "cadastrados" : "cadastrado"}
+          </Subtitle>
         </div>
         <div>
           <Dialog.Root>
-            <Dialog.Trigger>
+            <Dialog.Trigger asChild>
               <Button text="Novo edifício" variant="primary" withPlusIcon />
             </Dialog.Trigger>
 

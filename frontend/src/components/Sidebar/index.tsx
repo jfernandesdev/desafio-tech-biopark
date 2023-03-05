@@ -14,22 +14,22 @@ export function Sidebar() {
 
       <LinkList>
         <NavLink
-          href="/building"
+          href="/buildings"
           icon={<Buildings weight="light" />}
           tooltip="Edifícios"
         />
         <NavLink
-          href="/"
+          href=""
           icon={<Handshake weight="light" />}
           tooltip="Aluguéis"
         />
         <NavLink
-          href="/"
+          href=""
           icon={<ChartLine weight="light" />}
           tooltip="Relatórios"
         />
         <NavLink
-          href="/"
+          href=""
           icon={<Gear weight="light" />}
           tooltip="Configurações"
         />

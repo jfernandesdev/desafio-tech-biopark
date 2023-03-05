@@ -80,7 +80,7 @@ export const Description = styled.span`
   font-size: 0.875rem;
 `;
 
-export const MoreDetailsBtn = styled.a`
+export const MoreDetailsBtn = styled.span`
   display: flex;
   align-items: center;
   gap: 0.5rem;

@@ -29,6 +29,9 @@ export const Title = styled.strong`
 `;
 
 export const Description = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 3px;
   font-size: 0.875rem;
 `;
 

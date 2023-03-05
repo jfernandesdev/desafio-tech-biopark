@@ -4,7 +4,7 @@ interface IButtonStyle {
   variant?: "primary" | "secondary" | "danger";
 }
 
-export const ButtonStyle = styled.a<IButtonStyle>`
+export const ButtonStyle = styled.button<IButtonStyle>`
   border-radius: 10px;
   padding: 12px 24px;
   font-size: 1rem;

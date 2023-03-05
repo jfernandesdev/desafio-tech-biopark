@@ -1,32 +1,65 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { LadderSimple, MapPinLine } from "phosphor-react";
+import { Ghost, LadderSimple, MapPinLine } from "phosphor-react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import { Button } from "../../components/Button";
 import { CardApartment } from "../../components/CardApartment";
 import { NewApartmentModal } from "../../components/NewApartmentModal";
 import { Title } from "../../components/Title";
+import { api } from "../../lib/axios";
 import { Container, Header, Description, ApartmentsCardList } from "./styles";
 
+interface IApartment {
+  id: string;
+  number: number;
+  floor: number;
+  number_of_bedrooms: number;
+  rent_value: number;
+  availability: boolean;
+}
+
+interface IBuilding {
+  id: string;
+  name: string;
+  address: string;
+  number_of_floors: number;
+  Apartments?: IApartment[];
+}
+
 export function Building() {
-  return (
-    <Container>
+  const { id } = useParams<{ id: string }>();
+  const [building, setBuilding] = useState<IBuilding>({} as IBuilding);
+
+  useEffect(() => {
+    async function getBuilding() {
+      const { data } = await api.get(`/buildings/${id}`);
+      setBuilding(data);
+    }
+
+    getBuilding();
+  }, [building]);
+
+  return building && building.id ? (
+    <>
       <Header>
         <div>
-          <Title title="Edifício Residencial A" weight="500" />
+          <Title title={building.name} weight="500" />
+
           <Description>
             <span>
               <MapPinLine />
-              Localizado na Rua A, 1001 - Biopark
+              {building.address}
             </span>
             <span>
-              <LadderSimple /> 4 andares
+              <LadderSimple /> {building.number_of_floors} andares
             </span>
           </Description>
         </div>
 
         <div>
           <Dialog.Root>
-            <Dialog.Trigger>
+            <Dialog.Trigger asChild>
               <Button text="Novo apartamento" variant="primary" withPlusIcon />
             </Dialog.Trigger>
 
@@ -36,14 +69,17 @@ export function Building() {
       </Header>
 
       <ApartmentsCardList>
-        <CardApartment />
-        <CardApartment availability />
-        <CardApartment />
-        <CardApartment availability />
-        <CardApartment />
-        <CardApartment />
-        <CardApartment availability />
+        {building.Apartments?.map((apartment) => (
+          <CardApartment key={apartment.id} data={apartment} />
+        ))}
       </ApartmentsCardList>
+    </>
+  ) : (
+    <Container>
+      <div>
+        <Ghost size={45} weight="light" />
+        <span>Edifício não encontrado ou inexistente!</span>
+      </div>
     </Container>
   );
 }

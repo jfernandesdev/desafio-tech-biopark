@@ -1,5 +1,5 @@
 import { LadderSimple, MapPinLine, ArrowSquareUpRight } from "phosphor-react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import {
   Card,
@@ -43,7 +43,7 @@ export function CardBuilding({ data }: ICardBuilding) {
 
   return (
     <Card>
-      <NavLink to={`/building/${data.id}`}>
+      <Link to={`/building/${data.id}`}>
         <CardHeader>
           <Title>{data.name}</Title>
           <NumberOfApartments>
@@ -70,7 +70,7 @@ export function CardBuilding({ data }: ICardBuilding) {
             Mais detalhes <ArrowSquareUpRight size={16} weight="bold" />
           </MoreDetailsBtn>
         </CardBody>
-      </NavLink>
+      </Link>
     </Card>
   );
 }
