@@ -3,6 +3,7 @@ import { LadderSimple, MapPinLine } from "phosphor-react";
 
 import { Button } from "../../components/Button";
 import { RentApartmentModal } from "../../components/RentApartmentModal";
+import { RentInformationModal } from "../../components/RentInformationModal";
 import { Title } from "../../components/Title";
 import { Container } from "./styles";
 
@@ -29,6 +30,17 @@ export function Building() {
         </Dialog.Trigger>
 
         <RentApartmentModal />
+      </Dialog.Root>
+
+      <Dialog.Root>
+        <Dialog.Trigger>
+          <Button
+            text="Modal Informações de aluguél. (apenas marcação)"
+            variant="secondary"
+          />
+        </Dialog.Trigger>
+
+        <RentInformationModal />
       </Dialog.Root>
     </Container>
   );

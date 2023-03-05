@@ -50,9 +50,13 @@ export const Input = styled.input`
   }
 `;
 
-export const FooterForm = styled.footer`
+interface IFooterForm {
+  variantJustify?: "right" | "center";
+}
+export const FooterForm = styled.footer<IFooterForm>`
   display: flex;
-  justify-content: center;
+  justify-content: ${(props) =>
+    props.variantJustify ? props.variantJustify : "center"};
   align-items: center;
   gap: 1rem;
   padding-top: 1rem;
