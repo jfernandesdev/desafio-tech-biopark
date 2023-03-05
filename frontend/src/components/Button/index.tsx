@@ -2,21 +2,20 @@ import { PlusCircle } from "phosphor-react";
 
 import { ButtonStyle } from "./styles";
 
-interface IButton {
-  link: string;
+interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
-  type?: "primary" | "secondary" | "danger";
+  variant?: "primary" | "secondary" | "danger";
   withPlusIcon?: boolean;
 }
 
 export function Button({
-  link,
   text,
-  type = "primary",
+  variant = "primary",
   withPlusIcon,
+  ...props
 }: IButton) {
   return (
-    <ButtonStyle to={link} type={type}>
+    <ButtonStyle variant={variant} {...props}>
       {text}
       {withPlusIcon && <PlusCircle size={24} weight="fill" />}
     </ButtonStyle>

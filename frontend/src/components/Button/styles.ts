@@ -1,13 +1,12 @@
-import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 interface IButtonStyle {
-  type?: "primary" | "secondary" | "danger";
+  variant?: "primary" | "secondary" | "danger";
 }
 
-export const ButtonStyle = styled(NavLink)<IButtonStyle>`
+export const ButtonStyle = styled.button<IButtonStyle>`
   border-radius: 10px;
-  padding: 10px 20px;
+  padding: 12px 24px;
   font-size: 1rem;
   display: inline-flex;
   align-items: center;
@@ -20,8 +19,8 @@ export const ButtonStyle = styled(NavLink)<IButtonStyle>`
   }
 
   //type primary
-  ${({ type, theme }) =>
-    type === "primary" &&
+  ${({ variant, theme }) =>
+    variant === "primary" &&
     `
     background: ${theme["brand-secondary"]};
     color: ${theme.white};
@@ -32,9 +31,9 @@ export const ButtonStyle = styled(NavLink)<IButtonStyle>`
     }
   `}
 
-  // type secondary
-  ${({ type, theme }) =>
-    type === "secondary" &&
+  // variant secondary
+  ${({ variant, theme }) =>
+    variant === "secondary" &&
     `
      background: transparent;
      color: ${theme["base-text"]};
@@ -46,9 +45,9 @@ export const ButtonStyle = styled(NavLink)<IButtonStyle>`
      }
   `}
 
-// type danger
-   ${({ type, theme }) =>
-    type === "danger" &&
+// variant danger
+   ${({ variant, theme }) =>
+    variant === "danger" &&
     `
      background: ${theme["red-background"]};
      color: ${theme["red-alert"]};
