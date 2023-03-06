@@ -67,6 +67,7 @@ export function BuildingsProvider({ children }: IBuildingsProviderProps) {
         });
 
         console.log("Apartamento criado com sucesso!");
+        window.location.reload();
       } catch (err) {
         console.log(err);
       }
@@ -91,6 +92,7 @@ export function BuildingsProvider({ children }: IBuildingsProviderProps) {
         });
 
         console.log("Apartamento alugado com sucesso!");
+        window.location.reload();
       } catch (err) {
         console.log(err);
       }
@@ -101,12 +103,12 @@ export function BuildingsProvider({ children }: IBuildingsProviderProps) {
   const contextValue = useMemo(() => {
     return {
       buildings,
-      createBuilding,
       fetchBuildings,
+      createBuilding,
       createApartment,
       createRent,
     };
-  }, [buildings, fetchBuildings, createBuilding, createApartment, createRent]);
+  }, [buildings, fetchBuildings, createApartment, createRent]);
 
   useEffect(() => {
     fetchBuildings();

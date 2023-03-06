@@ -82,18 +82,6 @@ export async function buildingsRoutes(app: FastifyInstance) {
 
     const building = await prisma.buildings.findUnique({
       where: { id },
-      include: {
-        Apartments: {
-          select: {
-            id: true,
-            number: true,
-            floor: true,
-            number_of_bedrooms: true,
-            rent_value: true,
-            availability: true,
-          },
-        },
-      },
     });
 
     if (!building) {
@@ -101,6 +89,37 @@ export async function buildingsRoutes(app: FastifyInstance) {
     }
 
     return building;
+  });
+
+  app.get("/buildings/:id/apartments", async (request, reply) => {
+    const getBuildingParams = z.object({ id: z.string() });
+    const { id } = getBuildingParams.parse(request.params);
+
+    const building = await prisma.buildings.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!building) {
+      return reply.status(400).send({
+        message: "Building not found.",
+      });
+    }
+
+    const apartments = await prisma.apartments.findMany({
+      where: { building_id: id },
+      select: {
+        id: true,
+        number: true,
+        floor: true,
+        number_of_bedrooms: true,
+        rent_value: true,
+        availability: true,
+      },
+    });
+
+    return apartments;
   });
 
   app.post("/buildings/:id/apartments", async (request, reply) => {

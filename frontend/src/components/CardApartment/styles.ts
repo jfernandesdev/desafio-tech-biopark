@@ -20,6 +20,8 @@ export const CardBody = styled.div`
   align-items: flex-end;
   justify-content: space-between;
   padding: 0.5rem 0;
+  flex-wrap: wrap;
+  gap: 0.3rem;
 `;
 
 export const Title = styled.strong`

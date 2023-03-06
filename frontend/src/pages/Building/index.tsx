@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Ghost, LadderSimple, MapPinLine } from "phosphor-react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { Button } from "../../components/Button";
@@ -10,54 +10,65 @@ import { Title } from "../../components/Title";
 import { api } from "../../lib/axios";
 import { Container, Header, Description, ApartmentsCardList } from "./styles";
 
-type Apartment = {
+interface IBuilding {
+  id: string;
+  name: string;
+  address: string;
+  number_of_floors: number;
+}
+
+interface IApartment {
   id: string;
   number: number;
   floor: number;
   number_of_bedrooms: number;
   rent_value: number;
   availability: boolean;
-};
-
-interface IBuilding {
-  id: string;
-  name: string;
-  address: string;
-  number_of_floors: number;
-  Apartments?: Apartment[];
 }
 
 export function Building() {
   const { id } = useParams<{ id: string }>();
   const [building, setBuilding] = useState<IBuilding | null>(null);
+  const [apartments, setApartments] = useState<IApartment[]>([]);
 
   useEffect(() => {
-    async function getBuilding() {
-      const { data } = await api.get(`/buildings/${id}`);
-      setBuilding(data);
+    async function fetchData() {
+      try {
+        const { data: buildingData } = await api.get(`/buildings/${id}`);
+        setBuilding(buildingData);
+
+        const { data: apartmentsData } = await api.get(
+          `/buildings/${id}/apartments`
+        );
+        setApartments(apartmentsData);
+      } catch (error) {
+        console.error(error);
+      }
     }
 
-    getBuilding();
+    fetchData();
   }, [id]);
 
   if (!building) {
     return <p>Loading...</p>;
   }
 
+  const { name, address, number_of_floors } = building;
+
   return building.id ? (
     <>
       <Header>
         <div>
-          <Title title={building.name} weight="500" />
+          <Title title={name} weight="500" />
 
           <Description>
             <span>
               <MapPinLine />
-              {building.address}
+              {address}
             </span>
             <span>
               <LadderSimple />
-              {building.number_of_floors} andares
+              {number_of_floors} andares
             </span>
           </Description>
         </div>
@@ -68,16 +79,13 @@ export function Building() {
               <Button text="Novo apartamento" variant="primary" withPlusIcon />
             </Dialog.Trigger>
 
-            <NewApartmentModal
-              buildingId={building.id}
-              buildingName={building.name}
-            />
+            <NewApartmentModal buildingId={building.id} buildingName={name} />
           </Dialog.Root>
         </div>
       </Header>
 
       <ApartmentsCardList>
-        {building.Apartments?.map((apartment) => (
+        {apartments?.map((apartment) => (
           <CardApartment key={apartment.id} data={apartment} />
         ))}
       </ApartmentsCardList>
