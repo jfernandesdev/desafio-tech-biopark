@@ -4,39 +4,24 @@ import {
   useEffect,
   useMemo,
   useCallback,
-  ReactNode,
 } from "react";
 
 import { api } from "../lib/axios";
-
-interface IBuilding {
-  id: string;
-  name: string;
-  address: string;
-  number_of_floors: number;
-  opening_date: string;
-  created_at: string;
-  Apartments?: {
-    id: string;
-    availability: boolean;
-  }[];
-}
-
-interface ICreateBuildingInput {
-  name: string;
-  address: string;
-  number_of_floors: number;
-  opening_date: Date;
-}
-
-interface IBuildingsProviderProps {
-  children: ReactNode;
-}
+import {
+  IBuilding,
+  ICreateBuildingInput,
+  IBuildingsProviderProps,
+  ICreateApartmentInput,
+} from "./Interfaces";
 
 export interface IBuildingsContextData {
   buildings: IBuilding[];
   fetchBuildings: () => Promise<void>;
   createBuilding: (data: ICreateBuildingInput) => Promise<void>;
+  createApartment: (
+    id_building: string,
+    data: ICreateApartmentInput
+  ) => Promise<void>;
 }
 
 export const BuildingsContext = createContext({} as IBuildingsContextData);
@@ -63,9 +48,24 @@ export function BuildingsProvider({ children }: IBuildingsProviderProps) {
     setBuildings((state) => [response.data, ...state]);
   }, []);
 
+  const createApartment = useCallback(
+    async (id_building: string, data: ICreateApartmentInput) => {
+      const { number, floor, number_of_bedrooms, rent_value } = data;
+
+      await api.post(`/buildings/${id_building}/apartments`, {
+        number,
+        floor,
+        number_of_bedrooms,
+        rent_value,
+        availability: true,
+      });
+    },
+    []
+  );
+
   const contextValue = useMemo(() => {
-    return { buildings, createBuilding, fetchBuildings };
-  }, [buildings, fetchBuildings, createBuilding]);
+    return { buildings, createBuilding, fetchBuildings, createApartment };
+  }, [buildings, fetchBuildings, createBuilding, createApartment]);
 
   useEffect(() => {
     fetchBuildings();

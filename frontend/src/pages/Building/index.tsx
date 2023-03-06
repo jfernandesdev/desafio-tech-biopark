@@ -63,7 +63,10 @@ export function Building() {
               <Button text="Novo apartamento" variant="primary" withPlusIcon />
             </Dialog.Trigger>
 
-            <NewApartmentModal />
+            <NewApartmentModal
+              buildingId={building.id}
+              buildingName={building.name}
+            />
           </Dialog.Root>
         </div>
       </Header>
