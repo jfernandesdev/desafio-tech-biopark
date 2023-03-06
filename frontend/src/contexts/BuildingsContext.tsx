@@ -22,6 +22,13 @@ interface IBuilding {
   }[];
 }
 
+interface ICreateBuildingInput {
+  name: string;
+  address: string;
+  number_of_floors: number;
+  opening_date: Date;
+}
+
 interface IBuildingsProviderProps {
   children: ReactNode;
 }
@@ -29,11 +36,10 @@ interface IBuildingsProviderProps {
 export interface IBuildingsContextData {
   buildings: IBuilding[];
   fetchBuildings: () => Promise<void>;
+  createBuilding: (data: ICreateBuildingInput) => Promise<void>;
 }
 
-export const BuildingsContext = createContext<IBuildingsContextData>(
-  {} as IBuildingsContextData
-);
+export const BuildingsContext = createContext({} as IBuildingsContextData);
 
 export function BuildingsProvider({ children }: IBuildingsProviderProps) {
   const [buildings, setBuildings] = useState<IBuilding[]>([]);
@@ -44,10 +50,22 @@ export function BuildingsProvider({ children }: IBuildingsProviderProps) {
     setBuildings(response.data);
   }, []);
 
-  const contextValue = useMemo(
-    () => ({ buildings, fetchBuildings }),
-    [buildings, fetchBuildings]
-  );
+  const createBuilding = useCallback(async (data: ICreateBuildingInput) => {
+    const { name, address, number_of_floors, opening_date } = data;
+
+    const response = await api.post("/buildings", {
+      name,
+      address,
+      number_of_floors,
+      opening_date: new Date(opening_date),
+    });
+
+    setBuildings((state) => [response.data, ...state]);
+  }, []);
+
+  const contextValue = useMemo(() => {
+    return { buildings, createBuilding, fetchBuildings };
+  }, [buildings, fetchBuildings, createBuilding]);
 
   useEffect(() => {
     fetchBuildings();

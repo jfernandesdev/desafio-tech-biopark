@@ -1,10 +1,25 @@
 import styled from "styled-components";
 
-export const InputContainer = styled.div`
+interface IInputContainer {
+  error?: boolean;
+}
+
+export const InputContainer = styled.div<IInputContainer>`
   display: flex;
   align-items: center;
   border: 1px solid ${(props) => props.theme["base-card-line"]};
   border-radius: 6px;
+
+  ${({ error, theme }) =>
+    error &&
+    `
+    background: ${theme["red-background"]};
+    border: 1px solid ${theme["red-alert"]};
+
+    > input {
+       background: ${theme["red-background"]};
+    }
+  `}
 `;
 
 export const InputStyle = styled.input`

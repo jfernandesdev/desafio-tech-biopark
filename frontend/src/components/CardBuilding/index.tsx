@@ -48,11 +48,16 @@ export function CardBuilding({ data }: ICardBuilding) {
           <Title>{data.name}</Title>
           <NumberOfApartments>
             <TotalApartments>
-              <strong>{total}</strong> {total && total > 1 ? "aptos" : "apto"}
+              <strong>{total || 0}</strong>
+              {total && total > 1 ? "aptos" : "apto"}
             </TotalApartments>
             <div>
-              <AvailableApartment>{available} disponível</AvailableApartment>
-              <UnavailableApartment>{unavailable} alugado</UnavailableApartment>
+              <AvailableApartment>
+                {available || 0} disponível
+              </AvailableApartment>
+              <UnavailableApartment>
+                {unavailable || 0} alugado
+              </UnavailableApartment>
             </div>
           </NumberOfApartments>
         </CardHeader>

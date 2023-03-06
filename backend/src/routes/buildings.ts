@@ -5,10 +5,10 @@ import { z } from "zod";
 import { prisma } from "../lib/prisma";
 
 const createBuildingBodySchema = z.object({
-  name: z.string(),
-  address: z.string(),
-  number_of_floors: z.number(),
-  opening_date: z.string(),
+  name: z.string().min(3),
+  address: z.string().min(3),
+  number_of_floors: z.number().int().min(1),
+  opening_date: z.coerce.date(),
 });
 
 const createApartmentBodySchema = z.object({
@@ -36,7 +36,7 @@ export async function buildingsRoutes(app: FastifyInstance) {
         });
       }
 
-      await prisma.buildings.create({
+      const newBuilding = await prisma.buildings.create({
         data: {
           id: randomUUID(),
           name: buildingInfo.name,
@@ -46,7 +46,7 @@ export async function buildingsRoutes(app: FastifyInstance) {
         },
       });
 
-      return reply.status(201).send();
+      return reply.status(201).send(newBuilding);
     } catch (error) {
       const errorMessage =
         error instanceof z.ZodError
@@ -66,6 +66,9 @@ export async function buildingsRoutes(app: FastifyInstance) {
             availability: true,
           },
         },
+      },
+      orderBy: {
+        created_at: "desc",
       },
     });
 

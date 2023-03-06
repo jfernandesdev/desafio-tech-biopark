@@ -7,6 +7,7 @@ interface IButtonStyle {
 export const ButtonStyle = styled.button<IButtonStyle>`
   border-radius: 10px;
   padding: 12px 24px;
+  min-width: 160px;
   font-size: 1rem;
   display: inline-flex;
   align-items: center;
