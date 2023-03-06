@@ -59,7 +59,9 @@ export function RentApartmentModal({ apartmentData }: IRentApartmentModal) {
 
   async function handleNewRent(data: NewRentFormInputs) {
     await createRent(apartmentData.id, data);
+
     reset();
+    window.location.reload();
   }
 
   return (

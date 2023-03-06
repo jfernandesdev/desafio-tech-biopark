@@ -47,6 +47,7 @@ export function NewApartmentModal({
   async function handleNewApartment(data: NewApartmentFormInputs) {
     await createApartment(buildingId, data);
     reset();
+    window.location.reload();
   }
 
   return (

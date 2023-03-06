@@ -10,26 +10,26 @@ import { Title } from "../../components/Title";
 import { api } from "../../lib/axios";
 import { Container, Header, Description, ApartmentsCardList } from "./styles";
 
-interface IApartment {
+type Apartment = {
   id: string;
   number: number;
   floor: number;
   number_of_bedrooms: number;
   rent_value: number;
   availability: boolean;
-}
+};
 
 interface IBuilding {
   id: string;
   name: string;
   address: string;
   number_of_floors: number;
-  Apartments?: IApartment[];
+  Apartments?: Apartment[];
 }
 
 export function Building() {
   const { id } = useParams<{ id: string }>();
-  const [building, setBuilding] = useState<IBuilding>({} as IBuilding);
+  const [building, setBuilding] = useState<IBuilding | null>(null);
 
   useEffect(() => {
     async function getBuilding() {
@@ -38,9 +38,13 @@ export function Building() {
     }
 
     getBuilding();
-  }, [building]);
+  }, [id]);
 
-  return building && building.id ? (
+  if (!building) {
+    return <p>Loading...</p>;
+  }
+
+  return building.id ? (
     <>
       <Header>
         <div>

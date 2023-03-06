@@ -19,11 +19,11 @@ export interface IBuildingsContextData {
   buildings: IBuilding[];
   fetchBuildings: () => Promise<void>;
   createBuilding: (data: ICreateBuildingInput) => Promise<void>;
+  createRent: (id_apartment: string, data: ICreateRentInput) => Promise<void>;
   createApartment: (
     id_building: string,
     data: ICreateApartmentInput
   ) => Promise<void>;
-  createRent: (id_apartment: string, data: ICreateRentInput) => Promise<void>;
 }
 
 export const BuildingsContext = createContext({} as IBuildingsContextData);
@@ -32,9 +32,12 @@ export function BuildingsProvider({ children }: IBuildingsProviderProps) {
   const [buildings, setBuildings] = useState<IBuilding[]>([]);
 
   const fetchBuildings = useCallback(async () => {
-    const response = await api.get("/buildings");
-
-    setBuildings(response.data);
+    try {
+      const response = await api.get("/buildings");
+      setBuildings(response.data);
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
   const createBuilding = useCallback(async (data: ICreateBuildingInput) => {

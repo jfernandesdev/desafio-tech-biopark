@@ -59,7 +59,7 @@ export function CardApartment({ data }: ICardApartment) {
           {data.availability ? (
             <RentApartmentModal apartmentData={data} />
           ) : (
-            <RentInformationModal />
+            <RentInformationModal apartmentId={data.id} />
           )}
         </Dialog.Root>
       </CardFooter>

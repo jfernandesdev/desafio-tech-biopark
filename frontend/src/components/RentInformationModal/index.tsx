@@ -1,6 +1,10 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { LadderSimple, Bed, CurrencyCircleDollar, X } from "phosphor-react";
+import { useState, useEffect } from "react";
 
+import { api } from "../../lib/axios";
+import { formatDate } from "../../util/dateFormatter";
+import { priceFormatter } from "../../util/priceFormatter";
 import { Button } from "../Button";
 import {
   Form,
@@ -17,25 +21,63 @@ import {
   ModalTitle,
   ModalCloseButton,
 } from "../Modal/styles";
+import { IApartment } from "./Interfaces";
 
-export function RentInformationModal() {
+interface IRentInformationModal {
+  apartmentId: string;
+}
+export function RentInformationModal({ apartmentId }: IRentInformationModal) {
+  const [rent, setRent] = useState<IApartment>();
+
+  useEffect(() => {
+    async function getApartment() {
+      const { data } = await api.get(`/apartments/${apartmentId}`);
+
+      const formattedData = {
+        ...data,
+        lastRent: {
+          ...data.lastRent,
+          start_date: data.lastRent.start_date
+            ? formatDate(data.lastRent.start_date)
+            : data.lastRent.start_date,
+          end_date: data.lastRent.end_date
+            ? formatDate(data.lastRent.start_date)
+            : data.lastRent.end_date,
+          tenant: {
+            ...data.lastRent.tenant,
+            date_of_birth: data.lastRent.tenant.date_of_birth
+              ? formatDate(data.lastRent.tenant.date_of_birth)
+              : data.lastRent.tenant.date_of_birth,
+          },
+        },
+      };
+
+      setRent(formattedData);
+    }
+
+    getApartment();
+  }, [apartmentId]);
+
   return (
     <Dialog.Portal>
       <ModalOverlay />
 
       <ModalContent>
-        <ModalTitle>Apartamento 1002</ModalTitle>
+        <ModalTitle>
+          Apartamento <span>nº {rent?.apartment.number}</span>
+        </ModalTitle>
 
         <SubtitleInfo>
           <span>
-            <LadderSimple /> 1º andar
+            <LadderSimple /> {rent?.apartment.floor}º andar
           </span>
           <span>
-            <Bed />2 quartos
+            <Bed />
+            {rent?.apartment.number_of_bedrooms} quartos
           </span>
           <span>
             <CurrencyCircleDollar />
-            R$ 1200 / mês
+            {priceFormatter.format(rent?.apartment.rent_value || 0)}/mês
           </span>
         </SubtitleInfo>
 
@@ -52,12 +94,12 @@ export function RentInformationModal() {
 
             <Label>
               Data de início:
-              <Input type="date" value="2023-03-04" readOnly />
+              <Input value={rent?.lastRent?.start_date} readOnly />
             </Label>
 
             <Label>
               Data de término:
-              <Input type="date" value="2024-03-04" readOnly />
+              <Input value={rent?.lastRent?.end_date} readOnly />
             </Label>
           </RowThreeColumns>
 
@@ -66,29 +108,29 @@ export function RentInformationModal() {
           <RowThreeColumns>
             <Label>
               Nome completo:
-              <Input value="Jeferson Fernandes" readOnly />
+              <Input value={rent?.lastRent?.tenant.name} readOnly />
             </Label>
 
             <Label>
               CPF:
-              <Input value="111.222.333044" readOnly />
+              <Input value={rent?.lastRent?.tenant.cpf} readOnly />
             </Label>
 
             <Label>
               Data de nascimento:
-              <Input type="date" value="1996-09-21" readOnly />
+              <Input value={rent?.lastRent?.tenant.date_of_birth} readOnly />
             </Label>
           </RowThreeColumns>
 
           <RowTwoColumns>
             <Label>
               E-mail:
-              <Input type="email" value="jfernandes.dev@gmail.com" readOnly />
+              <Input value={rent?.lastRent?.tenant.email} readOnly />
             </Label>
 
             <Label>
               Telefone:
-              <Input type="phone" value="(35) 9999-9999" readOnly />
+              <Input value={rent?.lastRent?.tenant.phone} readOnly />
             </Label>
           </RowTwoColumns>
 

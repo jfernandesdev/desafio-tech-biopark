@@ -28,6 +28,7 @@ export async function apartmentsRoutes(app: FastifyInstance) {
           },
         },
         Rents: {
+          take: 1,
           select: {
             id: true,
             locator: true,
@@ -55,7 +56,13 @@ export async function apartmentsRoutes(app: FastifyInstance) {
       return reply.status(400).send({ message: "Apartment not found!" });
     }
 
-    return { apartment };
+    const {
+      Rents: [lastRent],
+      ...apartmentWithoutRents
+    } = apartment;
+    const result = { apartment: { ...apartmentWithoutRents }, lastRent };
+
+    return result;
   });
 
   app.post("/apartments/:id/rent", async (request, reply) => {
