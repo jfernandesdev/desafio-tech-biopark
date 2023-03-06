@@ -1,4 +1,4 @@
-# Desafio Tech Biopark <img src='' width='50px' />
+# Desafio Tech Biopark <img src='https://github.com/jfernandesdev/desafio-tech-biopark/blob/793849966d6be081fdddc606567a29c21ab92128/frontend/public/avatar.svg' width='50px' />
 
 Desafio Prático desenvolvido como parte do Processo Seletivo Treinne Biopark 2023.
 
@@ -41,23 +41,35 @@ Disponível no Figma["https://www.notion.so/jfernandesdev/Desafio-Tech-Biopark-b
 
 |  |  | |
 | --- | --- |--- |
-| <img src="" /> | <img src="" /> | <img src="" /> | 
+| <img src="https://github.com/jfernandesdev/desafio-tech-biopark/blob/793849966d6be081fdddc606567a29c21ab92128/frontend/public/layout/layout-1.png" /> | <img src="https://github.com/jfernandesdev/desafio-tech-biopark/blob/793849966d6be081fdddc606567a29c21ab92128/frontend/public/layout/layout-2.png" /> | <img src="https://github.com/jfernandesdev/desafio-tech-biopark/blob/793849966d6be081fdddc606567a29c21ab92128/frontend/public/layout/layout-3.png" /> | 
 
 |  |  | |
 | --- | --- | --- |
-| <img src="" /> | <img src="" /> | <img src="" /> | 
+| <img src="https://github.com/jfernandesdev/desafio-tech-biopark/blob/793849966d6be081fdddc606567a29c21ab92128/frontend/public/layout/layout-4.png" /> | <img src="https://github.com/jfernandesdev/desafio-tech-biopark/blob/793849966d6be081fdddc606567a29c21ab92128/frontend/public/layout/layout-5.png" /> | <img src="https://github.com/jfernandesdev/desafio-tech-biopark/blob/793849966d6be081fdddc606567a29c21ab92128/frontend/public/layout/layout-6.png" /> | 
 
 
 ##  Rodando a aplicação localmente: ⚙
 
-Clone e entre na pasta do projeto.
+Clone o projeto e entre na pasta do projeto.
 ```sh
-$ git clone 
+$ git clone git@github.com:jfernandesdev/desafio-tech-biopark.git && cd desafio-tech-biopark
 ```
 
-Rode o projeto com modo de desenvolvedor:
+Entre na pasta `Backend` e `Front-end` e instale as depedências
 ```sh
-$ npm run dev
+$ cd backend && npm install
+$ cd backend && npm install
+```
+
+Com postgre instalado e configurado em sua máquina, crie um banco de dados chamado `db_desafio_tech` e altere os dados de usuário, senha e porta no arquivo`.env` (se não forem o mesmo). Rode as migrition
+```sh
+$ npm run migrate:dev
+```
+
+Rode o `Backend` depois o `Front-end`
+```sh
+$ cd backend && npm run dev
+$ cd backend && npm run dev
 ```
 
 <br>
