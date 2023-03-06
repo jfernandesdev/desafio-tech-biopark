@@ -52,7 +52,8 @@ export function Building() {
               {building.address}
             </span>
             <span>
-              <LadderSimple /> {building.number_of_floors} andares
+              <LadderSimple />
+              {building.number_of_floors} andares
             </span>
           </Description>
         </div>

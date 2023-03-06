@@ -30,3 +30,13 @@ export interface ICreateApartmentInput {
   number_of_bedrooms: number;
   rent_value: number;
 }
+
+export interface ICreateRentInput {
+  cpf: string;
+  name: string;
+  email: string;
+  date_of_birth: Date;
+  phone: string;
+  start_date: Date;
+  end_date: Date;
+}

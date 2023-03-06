@@ -12,6 +12,7 @@ import {
   ICreateBuildingInput,
   IBuildingsProviderProps,
   ICreateApartmentInput,
+  ICreateRentInput,
 } from "./Interfaces";
 
 export interface IBuildingsContextData {
@@ -22,6 +23,7 @@ export interface IBuildingsContextData {
     id_building: string,
     data: ICreateApartmentInput
   ) => Promise<void>;
+  createRent: (id_apartment: string, data: ICreateRentInput) => Promise<void>;
 }
 
 export const BuildingsContext = createContext({} as IBuildingsContextData);
@@ -52,20 +54,56 @@ export function BuildingsProvider({ children }: IBuildingsProviderProps) {
     async (id_building: string, data: ICreateApartmentInput) => {
       const { number, floor, number_of_bedrooms, rent_value } = data;
 
-      await api.post(`/buildings/${id_building}/apartments`, {
-        number,
-        floor,
-        number_of_bedrooms,
-        rent_value,
-        availability: true,
-      });
+      try {
+        await api.post(`/buildings/${id_building}/apartments`, {
+          number,
+          floor,
+          number_of_bedrooms,
+          rent_value,
+          availability: true,
+        });
+
+        console.log("Apartamento criado com sucesso!");
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    []
+  );
+
+  const createRent = useCallback(
+    async (id_apartment: string, data: ICreateRentInput) => {
+      const { cpf, name, email, date_of_birth, phone, start_date, end_date } =
+        data;
+
+      try {
+        await api.post(`/apartments/${id_apartment}/rent`, {
+          cpf,
+          name,
+          email,
+          date_of_birth,
+          phone,
+          start_date,
+          end_date,
+        });
+
+        console.log("Apartamento alugado com sucesso!");
+      } catch (err) {
+        console.log(err);
+      }
     },
     []
   );
 
   const contextValue = useMemo(() => {
-    return { buildings, createBuilding, fetchBuildings, createApartment };
-  }, [buildings, fetchBuildings, createBuilding, createApartment]);
+    return {
+      buildings,
+      createBuilding,
+      fetchBuildings,
+      createApartment,
+      createRent,
+    };
+  }, [buildings, fetchBuildings, createBuilding, createApartment, createRent]);
 
   useEffect(() => {
     fetchBuildings();

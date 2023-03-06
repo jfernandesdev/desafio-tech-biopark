@@ -4,8 +4,8 @@ import { z } from "zod";
 import { prisma } from "../lib/prisma";
 
 const createRentsBodySchema = z.object({
-  cpf: z.string(),
-  name: z.string(),
+  cpf: z.string().min(11),
+  name: z.string().min(3),
   date_of_birth: z.coerce.date(),
   email: z.string().email(),
   phone: z.string(),

@@ -57,7 +57,7 @@ export function CardApartment({ data }: ICardApartment) {
           </Dialog.Trigger>
 
           {data.availability ? (
-            <RentApartmentModal />
+            <RentApartmentModal apartmentData={data} />
           ) : (
             <RentInformationModal />
           )}

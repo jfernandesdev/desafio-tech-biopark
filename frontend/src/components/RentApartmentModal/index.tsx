@@ -1,6 +1,11 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { LadderSimple, Bed, CurrencyCircleDollar, X } from "phosphor-react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
+import { useBuildings } from "../../hooks/useBuildings";
+import { priceFormatter } from "../../util/priceFormatter";
 import { Button } from "../Button";
 import {
   Form,
@@ -18,26 +23,65 @@ import {
   ModalCloseButton,
 } from "../Modal/styles";
 
-export function RentApartmentModal() {
+interface IRentApartmentModal {
+  apartmentData: {
+    id: string;
+    number: number;
+    floor: number;
+    number_of_bedrooms: number;
+    rent_value: number;
+  };
+}
+
+const newRentFormSchema = z.object({
+  cpf: z.string().min(11),
+  name: z.string().min(3),
+  email: z.string().email(),
+  date_of_birth: z.coerce.date(),
+  phone: z.string().min(3),
+  start_date: z.coerce.date(),
+  end_date: z.coerce.date(),
+});
+
+type NewRentFormInputs = z.infer<typeof newRentFormSchema>;
+
+export function RentApartmentModal({ apartmentData }: IRentApartmentModal) {
+  const { createRent } = useBuildings();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<NewRentFormInputs>({
+    resolver: zodResolver(newRentFormSchema),
+  });
+
+  async function handleNewRent(data: NewRentFormInputs) {
+    await createRent(apartmentData.id, data);
+    reset();
+  }
+
   return (
     <Dialog.Portal>
       <ModalOverlay />
 
       <ModalContent>
         <ModalTitle>
-          Alugando o <span>Apto. 1001</span>
+          Alugando o <span>Apto. {apartmentData.number}</span>
         </ModalTitle>
 
         <SubtitleInfo>
           <span>
-            <LadderSimple /> 1º andar
+            <LadderSimple /> {apartmentData.floor}º andar
           </span>
           <span>
-            <Bed />2 quartos
+            <Bed />
+            {apartmentData.number_of_bedrooms} quartos
           </span>
           <span>
             <CurrencyCircleDollar />
-            R$ 1200 / mês
+            {priceFormatter.format(apartmentData.rent_value)}/mês
           </span>
         </SubtitleInfo>
 
@@ -45,7 +89,7 @@ export function RentApartmentModal() {
           <X size={24} weight="bold" />
         </ModalCloseButton>
 
-        <Form>
+        <Form onSubmit={handleSubmit(handleNewRent)}>
           <RowThreeColumns>
             <Label htmlFor="locator">
               Locador:
@@ -54,12 +98,24 @@ export function RentApartmentModal() {
 
             <Label htmlFor="start_date">
               Data de início:
-              <Input type="date" id="start_date" required />
+              <Input
+                type="date"
+                id="start_date"
+                {...register("start_date")}
+                error={!!errors.start_date}
+                required
+              />
             </Label>
 
             <Label htmlFor="end_date">
               Data de término:
-              <Input type="date" id="end_date" required />
+              <Input
+                type="date"
+                id="end_date"
+                {...register("end_date")}
+                error={!!errors.end_date}
+                required
+              />
             </Label>
           </RowThreeColumns>
 
@@ -68,7 +124,13 @@ export function RentApartmentModal() {
           <RowThreeColumns>
             <Label htmlFor="name">
               Nome completo:
-              <Input type="text" id="name" required />
+              <Input
+                type="text"
+                id="name"
+                {...register("name")}
+                error={!!errors.name}
+                required
+              />
             </Label>
 
             <Label htmlFor="cpf">
@@ -77,20 +139,34 @@ export function RentApartmentModal() {
                 type="text"
                 id="cpf"
                 placeholder="000.000.000-00"
+                {...register("cpf")}
+                error={!!errors.cpf}
                 required
               />
             </Label>
 
             <Label htmlFor="date_of_birth">
               Data de nascimento:
-              <Input type="date" id="date_of_birth" required />
+              <Input
+                type="date"
+                id="date_of_birth"
+                {...register("date_of_birth")}
+                error={!!errors.date_of_birth}
+                required
+              />
             </Label>
           </RowThreeColumns>
 
           <RowTwoColumns>
             <Label htmlFor="email">
               E-mail:
-              <Input type="email" id="email" required />
+              <Input
+                type="email"
+                id="email"
+                {...register("email")}
+                error={!!errors.email}
+                required
+              />
             </Label>
 
             <Label htmlFor="phone">
@@ -99,6 +175,8 @@ export function RentApartmentModal() {
                 type="phone"
                 id="phone"
                 placeholder="(00) 0000-0000"
+                {...register("phone")}
+                error={!!errors.phone}
                 required
               />
             </Label>
@@ -106,9 +184,18 @@ export function RentApartmentModal() {
 
           <FooterForm>
             <Dialog.Close asChild>
-              <Button type="reset" variant="secondary" text="Cancelar" />
+              <Button
+                type="reset"
+                variant="secondary"
+                text="Cancelar"
+                onClick={() => reset()}
+              />
             </Dialog.Close>
-            <Button type="submit" text="Alugar apartamento" />
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              text={isSubmitting ? "Alugando..." : "Alugar apartamento"}
+            />
           </FooterForm>
         </Form>
       </ModalContent>
