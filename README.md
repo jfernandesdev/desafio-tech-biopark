@@ -1,6 +1,6 @@
 # Desafio Tech Biopark <img src='https://github.com/jfernandesdev/desafio-tech-biopark/blob/793849966d6be081fdddc606567a29c21ab92128/frontend/public/avatar.svg' width='50px' />
 
-Desafio Prático desenvolvido como parte do Processo Seletivo Treinne Biopark 2023.
+Desafio Prático desenvolvido como parte do Processo Seletivo Trainne Biopark 2023.
 
 ## Contexto do desafio: 
 Desenvolver um sistema com o objetivo de facilitar a gestão dos apartamentos entregues no ecossistema. O sistema deve conter banco de dados, backend e front-end.
@@ -11,11 +11,14 @@ Desenvolver um sistema com o objetivo de facilitar a gestão dos apartamentos en
 - [x] API;
 - [x] Validade de dados;
 
+<img src="https://github.com/jfernandesdev/desafio-tech-biopark/blob/0200279b7d2443e7f568050d52924c70166f3364/backend/prisma/ERD.png" />
+
+
 ## Dendente
-- [] Resposividadade do front-end;
-- [] Funcionalidade extras
-- [] Documentação da API com Swagger;
-- [] Teste unitários.
+- [ ] Resposividadade do front-end;
+- [ ] Funcionalidade extras
+- [ ] Documentação da API com Swagger;
+- [ ] Teste unitários.
 
 ### Principais tecnologias utilizadas: 🚀
 
@@ -36,7 +39,7 @@ Desenvolver um sistema com o objetivo de facilitar a gestão dos apartamentos en
 - Zod | ^3
 
 ## Layout (design by @jfernandesdev) 🎨
-Disponível no Figma["https://www.notion.so/jfernandesdev/Desafio-Tech-Biopark-b9751456120f4760bd041b15d13abbfd?pvs=4#a06e37144c5c4539959a1cde4a9aa235"]
+Disponível no Figma[https://www.figma.com/file/TaqY8FjjJ1Sru2HfzgERwm/Desafio-Tech-Biopark?node-id=0%3A1&t=cXQYxAqQCZbmoa8P-1]
 ### Desktop (screenshot):
 
 |  |  | |
@@ -58,7 +61,7 @@ $ git clone git@github.com:jfernandesdev/desafio-tech-biopark.git && cd desafio-
 Entre na pasta `Backend` e `Front-end` e instale as depedências
 ```sh
 $ cd backend && npm install
-$ cd backend && npm install
+$ cd frontend && npm install
 ```
 
 Com postgre instalado e configurado em sua máquina, crie um banco de dados chamado `db_desafio_tech` e altere os dados de usuário, senha e porta no arquivo`.env` (se não forem o mesmo). Rode as migrition
@@ -66,10 +69,10 @@ Com postgre instalado e configurado em sua máquina, crie um banco de dados cham
 $ npm run migrate:dev
 ```
 
-Rode o `Backend` depois o `Front-end`
+Rode o `Backend ` depois o `Front-end`
 ```sh
 $ cd backend && npm run dev
-$ cd backend && npm run dev
+$ cd frontend && npm run dev
 ```
 
 <br>
